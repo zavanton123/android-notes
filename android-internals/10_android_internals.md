@@ -68,7 +68,9 @@ For simplicity - AIDL tool is used, it is a bridge, it creates:
 
 
 at App1: (*.aidl -> Java Interface --> call Proxy.someMethod() -> call Binder.transact()
+
 at Kernel: --> syscall to Kernel (/dev/binder) --> syscall from Kernel to App2
+
 at App2: --> call Binder.onTransact() --> call Stud.someMethod()
 
 
