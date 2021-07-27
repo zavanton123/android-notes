@@ -59,9 +59,11 @@ it triggers Zygote process
 ### SystemServer process
 - starts the main system services 
 (ActivityManagerService, PackageManagerService, WindowManagerService, etc.) 
-- starts Activity Thread 
+
+ActivityManager -> send message to Zygote -> create process App1
 
 
+### App 1 process 
 ### ActivityThread
 ActivityThread.main() 
   Looper.prepareMain() (this launches app's UI thread with Handler)
