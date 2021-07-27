@@ -11,6 +11,7 @@ The kernel is responsible for:
 
 
 ### Android Kernel modifications:
+- Binder IPC (/dev/binder)
 - OOM Killer (Out Of Memory)
 - Wakelocks (put the device into dormant state for battery efficiency)
 
