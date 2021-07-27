@@ -56,7 +56,7 @@ App1 sends a callback via Binder to App2 (i.e. Binder.transact())
 App2 executes the callback and sends back the result 
 to App1 via Binder (i.e. Binder.onTransact())
 
-Note: any data is wrapped into Parcels
+Note: any data is wrapped into Parcels (marshal/unmarshal VS serialize/deserialize)
 
 App1 --> aidl --> Binder/IBinder
                 --> Kernel (Binder Module)
@@ -100,4 +100,3 @@ ActivityManager gives each process an OOM score
 which is later used by the Kernel to kill the old process.
 Each time something happens (activity is opened, closed, etc.) 
 the relevant OOM score is recalculated.
-
