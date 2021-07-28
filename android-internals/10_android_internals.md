@@ -12,18 +12,35 @@ The kernel is responsible for:
 
 ### Android Kernel modifications:
 - Binder IPC (/dev/binder)
-- OOM Killer (Out Of Memory)
+
+- Low Memory Killer (LMK) (vs Linus Out Of Memory Killer)
+(Android LMK score is set in User space) 
+(Linux OOM score is set in Kernel space)
+
 - Wakelocks (put the device into dormant state for battery efficiency)
+(If you need the device to be awake, you acquire the lock)
+(If you may let the device go to sleep, you release the lock)
 
 
 
 
 
 ### 'Init' process
+Executes init.rc
 When the device is turned on, the kernel starts the 'init' process
 - It is the first user space process
 - It is the root of all other processes
-- It starts daemons: Zygote, adbd, installd, logd
+(The Process Id (PID) of init process is always 1)
+- It mounts directories (/dev, /sys, /proc, etc.)
+- It starts daemons: Zygote, adbd, installd, logd, servicemanager
+
+
+### Daemon processes
+- installd (install/uninstall apps)
+- adbd (Android Debug Bridge)
+- servicemanager (registers all system services, i.e. ActivityManagerService, etc.)
+- Zygote 
+- etc.
 
 
 ### Zygote process (daemon)
@@ -37,15 +54,6 @@ When the device is turned on, the kernel starts the 'init' process
 ### Processes and UIDs
 - Android uses Linux's user ids (UIDs)
 - Every app is a user (i.e. every app has a UID)
-
-
-
-
-
-
-
-
-
 
 
 
@@ -82,7 +90,8 @@ at App2: --> call Binder.onTransact() --> call Stud.someMethod()
 
 ### System Server
 It is a process started by 'init' and forked from 'Zygote'
-System Server includes many managers (i.e. ActivityManager, WindowManager, PackageManager, etc.)
+System Server starts many services 
+(i.e. ActivityManagerService, WindowManagerService, PackageManagerService, etc.)
 Note: ActivityManager has a 'stack' of 'tasks' (i.e. app processes)
 Note: PackageManager resolves explicit and implicit intents.
 

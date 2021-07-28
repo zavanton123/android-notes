@@ -1,6 +1,10 @@
 ### Android Startup
 CPU -> Boot ROM (piece of code) -> Bootloader -> Kernel -> Init -> Native Daemons -> 
--> Android Runtime -> Zygote -> System Server -> App1, App2
+-> AndroidRuntime (this is a cpp class) -> Zygote -> System Server -> App1, App2
+
+### Types of communication
+- Binder IPC (more at the higher level)
+- Sockets (more at the lower level, e.g. NetworkService communicates with netd daemon)
 
 
 ### CPU
@@ -32,7 +36,7 @@ CPU -> Boot ROM (piece of code) -> Bootloader -> Kernel -> Init -> Native Daemon
 
 ### Init
 ### The file: init.rc
-it triggers Zygote process
+it triggers Zygote process and other native daemons
 
 
 
@@ -41,6 +45,7 @@ it triggers Zygote process
 ### with bootstrap services (i.e. NetworkService, StorageService, etc.)
 - installd (used for installing/uninstalling apps)
 (PackageManagerService communicates with installd via Unix Domain Socket)
+- servicemanager (all the system services are registered here)
 - vold
 - netd
 - rild
@@ -49,7 +54,8 @@ it triggers Zygote process
 
 
 ### Android Runtime
-- it is a cpp class that starts Zygote and System Server
+- it is a cpp class that starts Zygote (which starts the System Server)
+- Zygote socket is registered (/dev/socket/zygote)
 
 
 
@@ -66,8 +72,12 @@ it triggers Zygote process
 
 
 ### SystemServer process
+(note: its name is 'system')
+
 - starts the main system services 
 (ActivityManagerService, PackageManagerService, WindowManagerService, etc.) 
+
+- registers the system services with the servicemanager
 
 ### How does it work?
 ActivityManager -> send message to Zygote -> create process App1
@@ -78,12 +88,4 @@ ActivityManager -> send message to Zygote -> create process App1
 ActivityThread.main() 
   Looper.prepareMain() (this launches app's UI thread with Handler)
     Looper.loop()
-
-
-
-
-
-
-
-
 
