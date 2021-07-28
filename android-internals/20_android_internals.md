@@ -1,3 +1,8 @@
+### Android Startup
+CPU -> Boot ROM (piece of code) -> Bootloader -> Kernel -> Init -> Native Daemons -> 
+-> Android Runtime -> Zygote -> System Server -> App1, App2
+
+
 ### CPU
 ### ABI (Application Binary Interface):
 - armeabi-v7a
@@ -5,15 +10,19 @@
 - x86
 - x86_64
 
-
 ### Bootloader
 ### is used for initializing kernel
-CPU -> Boot ROM (piece of code) -> Bootloader -> Kernel -> Init -> Native Daemons -> 
--> Android Runtime -> Zygote -> System Server
 
 
-Kernel
-- power management (wake locks)
+### Kernel
+### Regular Linux features:
+- Process management
+- Memory management
+- IO management
+- etc.
+### Android specific features:
+- Binder IPC
+- Power management (wake locks)
 - Aggressive Low Memory Killer (VS regular Linux OOM Killer)
 -- foreground process
 -- visible process 
@@ -30,7 +39,6 @@ it triggers Zygote process
 ### Native Daemons
 ### Native Daemons communicate via Unix Domain Socket 
 ### with bootstrap services (i.e. NetworkService, StorageService, etc.)
-### (not very secure, not very fast)
 - installd (used for installing/uninstalling apps)
 (PackageManagerService communicates with installd via Unix Domain Socket)
 - vold
@@ -48,10 +56,11 @@ it triggers Zygote process
 ### Zygote process
 ### It has:
 - DalvikVM (or ART)
-- Preload Classes
-- create ZygoteServer
+- Preloaded Classes
+- ZygoteServer is running inside it
 - start System Server
 
+### How Zygote process creates a new App 1 process?
 ### ZygoteInit -> ZygoteServer.runSelectLoop() -> forkAndSpecialize() (i.e. creates new processes)
 
 
@@ -60,6 +69,7 @@ it triggers Zygote process
 - starts the main system services 
 (ActivityManagerService, PackageManagerService, WindowManagerService, etc.) 
 
+### How does it work?
 ActivityManager -> send message to Zygote -> create process App1
 
 
