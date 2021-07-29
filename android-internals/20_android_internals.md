@@ -86,6 +86,5 @@ ActivityManager -> send message to Zygote -> create process App1
 ### App 1 process 
 ### ActivityThread
 ActivityThread.main() 
-  Looper.prepareMain() (this launches app's UI thread with Handler)
+  Looper.prepareMainLooper() (this launches app's UI thread with Handler)
     Looper.loop()
-

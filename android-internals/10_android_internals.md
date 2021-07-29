@@ -13,7 +13,7 @@ The kernel is responsible for:
 ### Android Kernel modifications:
 - Binder IPC (/dev/binder)
 
-- Low Memory Killer (LMK) (vs Linus Out Of Memory Killer)
+- Low Memory Killer (LMK) (vs Linux Out Of Memory Killer)
 (Android LMK score is set in User space) 
 (Linux OOM score is set in Kernel space)
 

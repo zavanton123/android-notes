@@ -107,10 +107,6 @@ public class Handler {
     public void handleMessage(@NonNull Message message) {
         // some message handling here...
     }
-    
-    public void post(Runnable runnable){
-        handleCallback(runnable);
-    }
 }
 
 
@@ -119,11 +115,15 @@ public class Handler {
 Handler handler = new Handler(Looper.getMainLooper());
 
 // define the callback to be run by the handler in the Looper.loop()
-handler.post(new Runnable(){
+Message message = new Message();
+message.target = handler;
+message.callback = new Runnable(){
     @Override
     public void run() {
         // this code is run on the UI thread in Looper.loop()
         Toast.makeText(someContext, "Hello world", Toast.LENGTH_SHORT).show();
     }
-});
+};
+
+handler.post(message);
 
