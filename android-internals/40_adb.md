@@ -56,6 +56,22 @@ adb -d install HelloWorld.apk
 adb install ~/Desktop/HelloWorld.apk
 ```
 
+### Uninstall application
+```
+adb uninstall com.example.demoadb
+```
+
+### Show logcat logs
+```
+adb logcat -d
+adb logcat 
+```
+
+### Clear logcat logs
+```
+adb logcat -c
+```
+
 ### Setup port forwarding
 ### (i.e. forward host 1234 port to device 4321 port)
 ```
@@ -91,6 +107,14 @@ am help
 adb shell am start -a android.intent.action.VIEW
 ```
 
+### Example: start my app activity via ActivityManager:
+```
+adb shell am start \
+    -c api.android.intent.LAUNCHER \
+    -a api.android.category.MAIN 
+    -n com.example.demoadb/com.example.demoadb.MainActivity
+```
+
 ### Access PackageManage
 ```
 adb shell
@@ -123,3 +147,23 @@ adb shell
 sqlite3 /data/data/com.example.myapp1/databases/hello-world.db
 ```
 
+
+
+
+
+
+
+
+
+
+
+### 'emulator' command
+### location:
+```
+~/Android/Sdk/tools/emulator
+```
+
+### Show available emulators
+```
+emulator -list-avds
+```
