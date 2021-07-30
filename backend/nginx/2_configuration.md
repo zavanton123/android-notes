@@ -236,7 +236,6 @@ http {
 
 ### with 'rewrite' we can capture the parts of the original path
 ```
-
 http {
   server {
     rewrite ^/user/(\w+) /greet/$1;
@@ -251,6 +250,82 @@ http {
   }
 }
 ```
+
+
+### You can use the 'last' flag with the 'rewrite'
+### result: style.css is shown
+```
+http {
+  server {
+    rewrite ^/user/(\w+) /greet/$1;
+    rewrite ^/greet/john /style.css;
+
+    location /greet {
+      return 200 "Greeting to user";
+    }
+
+    location = /greet/john {
+      return 200 "Greeting to John";
+    }
+  }
+}
+```
+
+
+### result: Greeting to John is shown
+```
+http {
+  server {
+    rewrite ^/user/(\w+) /greet/$1 last;
+    rewrite ^/greet/john /style.css;
+
+    location /greet {
+      return 200 "Greeting to user";
+    }
+
+    location = /greet/john {
+      return 200 "Greeting to John";
+    }
+  }
+}
+```
+
+
+
+
+
+## try_files
+```
+events {}
+
+http {
+  include mime.types;
+
+  server {
+    listen 80;
+    server_name 54.93.123.207;
+
+    root /sites/demo;
+
+    try_files $uri /non-existing-cat.png /greet /my-404;
+
+    location /my-404 {
+      return 404 "Page not found";
+    }
+
+    location /greet {
+      return 200 "Hello, user";
+    }
+  }
+}
+```
+
+
+
+
+
+
+
 
 
 
