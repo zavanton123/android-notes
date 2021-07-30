@@ -388,7 +388,75 @@ http {
 
 
 
+## Inheritance and Directive Types
+- Standard Directive
+- Array Directive
+- Action Directive
 
+
+
+
+## Serving PHP
+```
+apt-get update -y
+apt-get install -y php-fpm
+systemctl list-units | grep php
+systemctl status php7.4-fpm
+```
+
+### update the configuration
+### /etc/nginx/nginx.config
+```
+user www-data;
+
+events {}
+
+http {
+  include mime.types;
+
+  server {
+    listen 80;
+    server_name 54.93.123.207;
+
+    root /sites/demo;
+
+    index index.php index.html;
+
+    location / {
+      try_files $uri $uri/ =404;
+    }
+
+    location ~\.php$ {
+      include fastcgi.conf;
+      fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+    }
+  }
+}
+```
+
+### check the php fpm location
+```
+find / -name *fpm.sock;
+```
+
+### Create php file
+### /sites/demo/info.php
+```
+<?php phpinfo(); ?>
+```
+
+### If permission denied error, check the users of the processes
+```
+ps aux | grep nginx
+ps aux | grep php
+```
+
+### Create index.php
+### check if the index setting is working ok
+### http://some-uri:80
+```
+<h1>Date: <?php echo date("l jS F"); ?></h1>
+```
 
 
 
