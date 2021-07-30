@@ -322,6 +322,33 @@ http {
 
 
 
+### Named locations
+### use '@'
+
+```
+events {}
+
+http {
+  include mime.types;
+
+  server {
+    listen 80;
+    server_name 54.93.123.207;
+
+    root /sites/demo;
+
+    try_files $uri /non-existing-cat.png /greet @my-404;
+
+    location @my-404 {
+      return 404 "Page not found";
+    }
+
+    location /greet {
+      return 200 "Hello, user";
+    }
+  }
+}
+```
 
 
 
