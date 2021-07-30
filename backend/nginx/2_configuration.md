@@ -352,8 +352,38 @@ http {
 
 
 
+## Logging
+- Error logs
+- Access logs
 
+### clear the logs
+```
+cd /var/log/nginx
+echo '' > error.log
+echo '' > access.log
+```
 
+### custom log file for custom location
+
+```
+events {}
+
+http {
+  include mime.types;
+
+  server {
+    listen 80;
+    server_name 54.93.123.207;
+
+    root /sites/demo;
+
+    location /secure {
+      access_log /var/log/nginx/secure.access.log;
+      return 200 "This is a secure page";
+    }
+  }
+}
+```
 
 
 
