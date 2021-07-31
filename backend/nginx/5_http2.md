@@ -88,6 +88,24 @@ openssl req -x509 -days 10 -nodes \
 
 
 
+## Server Push
+### Install nghttp2-client
+```
+apt-get install -y nghttp2-client
 
+nghttp -nys https://18.192.99.149/index.html
+nghttp -nysa https://18.192.99.149/index.html
+```
 
+### update config to enable push
+```
+location = /index.html {
+  http2_push /style.css;
+  http2_push /thumb.png;
+}
+```
 
+### test if push is ok
+```
+nghttp -nys https://18.192.99.149/index.html
+```
