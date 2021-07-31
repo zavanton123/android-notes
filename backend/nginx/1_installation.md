@@ -136,4 +136,3 @@ reboot
 
 ### check nginx
 systemctl status nginx
-

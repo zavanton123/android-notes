@@ -461,11 +461,92 @@ ps aux | grep php
 
 
 
+## Worker Processes
+### check the current nginx processes
+```
+systemctl status nginx
+ps aux | grep nginx
+```
+
+### Note: the number of worker processes must equal the number of CPU cores
+### check the number of cores
+```
+nproc
+lscpu
+```
+
+### configure the nginx to automatically match CPUs to worker processes
+### /etc/nginx/nginx.conf
+```
+worker_processes auto;
+```
+
+### Check the number of files to be opened
+### e.g. 1024
+```
+ulimit
+```
+
+### update the configuration
+```
+events {
+  worker_connections 1024;
+}
+```
+
+### You can change the pid file location settin
+```
+pid /var/run/new_nginx.pid;
+```
 
 
 
 
 
 
+## Add Dynamic Modules
+### Check the current configuration
+### location: downloaded nginx source code folder
+```
+nginx -V
+./configure --help
+```
+
+### install some new dependencies
+```
+apt-get install -y libgd-dev
+```
+
+### call ./configure, pass the previous config options, plus the dynamic modules and add --modules-path
+/home/ubuntu/nginx-1.21.1# ./configure \
+  --sbin-path=/usr/bin/nginx \ 
+  --conf-path=/etc/nginx/nginx.conf \ 
+  --error-log-path=/var/log/nginx/error.log \ 
+  --http-log-path=/var/log/nginx/access.log \ 
+  --with-pcre --pid-path=/var/run/nginx.pid \ 
+  --with-http_ssl_module \ 
+  --with-http_image_filter_module=dynamic 
+  --modules-path=/etc/nginx/modules
+
+
+### compile the newly configured nginx and install it
+```
+make
+make install
+```
+
+### Update the configuration
+```
+load_module /etc/nginx/modules/ngx_http_image_filter_module.so
+
+http {
+...
+  server {
+    location /some-cat.png {
+      image_filter rotate 180;
+    }
+  }
+}
+```
 
 
