@@ -13,6 +13,16 @@
 mkdir -p /sites/demo
 ```
 
+### Note: you nginx user and directory user must be the same
+### and add 'user www-data' to /etc/nginx/nginx.conf
+```
+chown -R www-data:www-data /sites/demo 
+```
+
+
+
+
+
 ### Add the files
 ### index.html
 ```
@@ -494,7 +504,7 @@ events {
 }
 ```
 
-### You can change the pid file location settin
+### You can change the pid file location setting
 ```
 pid /var/run/new_nginx.pid;
 ```
@@ -537,7 +547,7 @@ make install
 
 ### Update the configuration
 ```
-load_module /etc/nginx/modules/ngx_http_image_filter_module.so
+load_module /etc/nginx/modules/ngx_http_image_filter_module.so;
 
 http {
 ...
